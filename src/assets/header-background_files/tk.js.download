@@ -1,0 +1,52 @@
+(function (w, d, s, n, l) {
+    function gLSV(i) {
+        var value = (typeof (l) !== "undefined") ? l.getItem(i) : '';
+        return value != null ? value : '';
+    }
+
+    function gBPI(i) {
+        var meta = d.head.querySelector("meta[property='bc:" + i + "']");
+        return meta ? meta.content : '';
+    }
+
+    var q = {
+        t: gBPI('t'),
+        u: w.location.href,
+        ru: gBPI('ru'),
+        rd: gBPI('rd'),
+        tt: d.title,
+        sr: s.width + 'x' + s.height,
+        ds: w.innerWidth + 'x' + w.innerHeight,
+        co: n.cookieEnabled,
+        l: n.language,
+        uid: gBPI('uid'),
+        pi: gBPI('pi'),
+        pc: gBPI('pc'),
+        pm: gBPI('pm'),
+        cv: gBPI('cv'),
+        n: gLSV('name'),
+        p: gLSV('phone'),
+        e: gLSV('email'),
+        ts: gBPI('ts'),
+        te: new Date().getTime()
+    };
+
+    function serialize(obj) {
+        var str = [];
+        for (var p in obj)
+            if (obj.hasOwnProperty(p)) {
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            }
+        return str.join("&");
+    }
+
+    var a = d.createElement('noscript');
+    var i = d.createElement('img');
+    i.src = "//thongke.bookingcare.vn/collect?" + serialize(q);
+    i.width = 1;
+    i.height = 1;
+    i.style = "display:none";
+    a.appendChild(i);
+    var m = d.getElementsByTagName('noscript')[0];
+    m.parentNode.insertBefore(a, m);
+})(window, document, screen, navigator, localStorage);
